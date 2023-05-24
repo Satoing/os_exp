@@ -30,13 +30,11 @@ public:
     }
     // 重载为传递fd
     bool serialize(int f) const {
-	cout<<"Call A"<<'\n';
         if(write(f, (const char*)this, sizeof(A)) < 0) 
             return false;
         return true;
     }
     bool deserialize(int f) {
-	cout<<"Read A"<<'\n';
         int r = read(f, (char*)this, sizeof(A));
         if(r == 0 || r == -1) return false;
         return true;
@@ -45,13 +43,13 @@ public:
 
 class B {
 private:
-    int _port;
-    string _ipv6; //ipv6
+    int _age;
+    string _name; //ipv6
 public:
     B() {}
-    B(const char* ip, int port):_ipv6(ip), _port(port) {}
+    B(const char* name, int age):_name(name), _age(age) {}
     void show() {
-        cout << _ipv6 << ":" << _port << '\n';
+        cout << _name << ":" << _age << '\n';
     }
     bool serialize(const char* pFilePath) const {
         int f = open(pFilePath, O_RDWR);
@@ -68,13 +66,11 @@ public:
     }
     // 传递fd
     bool serialize(int f) const {
-	cout<<"Call B"<<'\n';
         if(write(f, (const char*)this, sizeof(B)) < 0) 
             return false;
         return true;
     }
     bool deserialize(int f) {
-	cout<<"Read B"<<'\n';
         int r = read(f, (char*)this, sizeof(B));
         if(r == 0 || r == -1) return false;
         return true;
@@ -98,8 +94,8 @@ public:
         for(auto a:v) {
             if(write(f, &(a->nType), sizeof(int))<0) return false;
             if(a->nType == 1) ((A*)(a->pobj))->serialize(f);
-	    else if(a->nType == 2) ((B*)(a->pobj))->serialize(f);
-	    else return false;
+	        else if(a->nType == 2) ((B*)(a->pobj))->serialize(f);
+	        else return false;
         } return true;
     }	
     bool deserialize(const char* pFilePath, vector<Wrapper*> &v) {
@@ -135,7 +131,7 @@ int main() {
     {   
         // 封装wrapper
         A a("127.0.0.1", 80);
-        B b("1234567890123456", 22);
+        B b("Sato", 21);
         Wrapper w1(&a);
         Wrapper w2(&b);
         vector<Wrapper*> v;
