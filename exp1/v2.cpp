@@ -9,7 +9,7 @@ using namespace std;
 class A {
 private:
     int _port;
-    string _ip;
+    const char* _ip;
 public:
     A() {}
     A(const char* ip, int port):_ip(ip), _port(port) {}

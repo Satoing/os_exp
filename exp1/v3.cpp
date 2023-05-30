@@ -8,7 +8,7 @@ using namespace std;
 class A {
 private:
     int _port;
-    string _ipv4;
+    const char* _ipv4;
 public:
     A() {}
     A(const char* ip, int port):_ipv4(ip), _port(port) {}
@@ -43,13 +43,13 @@ public:
 
 class B {
 private:
-    int _age;
-    string _name; //ipv6
+    int _port;
+    const char* _ipv6;
 public:
     B() {}
-    B(const char* name, int age):_name(name), _age(age) {}
+    B(const char* name, int age):_ipv6(name), _port(age) {}
     void show() {
-        cout << _name << ":" << _age << '\n';
+        cout << _ipv6 << ":" << _port << '\n';
     }
     bool serialize(const char* pFilePath) const {
         int f = open(pFilePath, O_RDWR);
@@ -131,7 +131,7 @@ int main() {
     {   
         // 封装wrapper
         A a("127.0.0.1", 80);
-        B b("Sato", 21);
+        B b("fe80::f2f0:edbb:752f:75c1", 21);
         Wrapper w1(&a);
         Wrapper w2(&b);
         vector<Wrapper*> v;

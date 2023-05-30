@@ -6,7 +6,7 @@ using namespace std;
 class A {
 private:
     int _port;
-    string _ip;
+    const char* _ip;
 public:
     A(const char* ip = "0.0.0.0", int port = 0):_ip(ip), _port(port) {}
     void show() {
