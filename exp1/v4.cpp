@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 #include <vector>
 #include <fcntl.h>
 #include <unistd.h>
@@ -11,7 +10,6 @@ public:
     virtual Wrapper* deserialize(int f) = 0;
     virtual int get_type() = 0;
     virtual void show() = 0;
-    // virtual ~Wrapper() {}
 };
 
 class A : public Wrapper {
@@ -130,7 +128,12 @@ int main() {
         s.deserialize("a.txt", v);
 
         for(auto i:v) {
-            i->show();
+            // i->show();
+            A *p = dynamic_cast<A*>(i);
+            if(p != NULL) p->show();
+
+            B *q = dynamic_cast<B*>(i);
+            if(q != NULL) q->show();
         }
     }
     return 0;
