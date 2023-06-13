@@ -9,7 +9,7 @@ public:
     virtual bool serialize(int f) = 0;
     virtual Wrapper* deserialize(int f) = 0;
     virtual int get_type() = 0;
-    virtual void show() = 0;
+    // virtual void show() = 0;
 };
 
 class A : public Wrapper {
@@ -40,10 +40,10 @@ public:
 class B : public Wrapper {
 private:
     int _port;
-    const char* _ipv6;
+    int _ipv6;
 public:
     B() {}
-    B(const char* name, int age):_ipv6(name), _port(age) {}
+    B(int name, int age):_ipv6(name), _port(age) {}
     void show() {
         cout << _ipv6 << ":" << _port << '\n';
     }
@@ -54,7 +54,7 @@ public:
     }
     Wrapper* deserialize(int f) {
         B* a = new B();
-        int r = read(f, (void*)a, sizeof(A));
+        int r = read(f, (void*)a, sizeof(B));
         return a;
     }
     int get_type() {
@@ -105,8 +105,8 @@ int main() {
         // 封装wrapper
         A a1("127.0.0.1", 80);
         A a2("192.168.0.103", 8080);
-        B b1("fe80::f2f0:edbb:752f:75c1", 21);
-        B b2("fe80::289f:2b2d:6581:6a93", 22);
+        B b1(10, 21);
+        B b2(100, 22);
         vector<Wrapper*> v;
         v.push_back(&a1);
         v.push_back(&a2);
